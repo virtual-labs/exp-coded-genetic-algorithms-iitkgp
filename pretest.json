@@ -1,0 +1,27 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "Which of the following algorithms is commonly used for solving optimization problems where the solution space consists of binary strings?",
+      "answers": {
+        "a": "Genetic Algorithm (GA)",
+        "b": "Particle Swarm Optimization (PSO)",
+        "c": "Simulated Annealing (SA)",
+        "d": "Ant Colony Optimization (ACO)"
+      },
+      "correctAnswer": "a",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Real-coded algorithms are commonly used in optimization problems involving:",
+      "answers": {
+        "a": "Discrete decision variables",
+        "b": "Binary decision variables",
+        "c": "Continuous decision variables",
+        "d": "Categorical decision variables"
+      },
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    }
+  ]
+}
