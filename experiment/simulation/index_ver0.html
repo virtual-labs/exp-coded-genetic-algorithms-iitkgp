@@ -1,0 +1,242 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>TSP Genetic Algorithm - Live Animation</title>
+	<!-- Add CSS at the head of HTML file -->
+    <link rel="stylesheet" href="./css/main.css">
+    <style>
+        body { font-family: Arial; padding: 20px; }
+        textarea { width: 300px; height: 130px; }
+        canvas { border: 1px solid #000; margin-top: 20px; }
+        #stats { font-size: 18px; margin-top: 10px; }
+    </style>
+</head>
+<body>
+
+<h2>Travelling Salesman Problem (Genetic Algorithm)</h2>
+
+<p><b>Enter city coordinates (x y per line):</b></p>
+
+<textarea id="coords">
+10 10
+50 400
+200 50
+300 300
+450 100
+120 460
+400 460
+</textarea>
+<br>
+
+<label>Population Size:</label>
+<input type="number" id="popSize" value="120"> <br><br>
+
+<label>Mutation Percentage (%):</label>
+<input type="number" id="mutationRate" value="8"> <br><br>
+
+<button onclick="startGA()">Start GA</button>
+
+<div id="stats"></div>
+
+<canvas id="canvas" width="500" height="500"></canvas>
+
+<script>
+
+// ---------- Parse User Cities ----------
+function loadCities() {
+    let text = document.getElementById("coords").value.trim().split("\n");
+    let cities = [];
+    for (let line of text) {
+        let p = line.trim().split(/\s+/);
+        if (p.length === 2) {
+            cities.push({x: parseFloat(p[0]), y: parseFloat(p[1])});
+        }
+    }
+    return cities;
+}
+
+// ---------- Distance ----------
+function dist(a, b) {
+    return Math.sqrt((a.x - b.x)**2 + (a.y - b.y)**2);
+}
+
+function tourDistance(tour, cities) {
+    let d = 0;
+    for (let i = 0; i < tour.length - 1; i++)
+        d += dist(cities[tour[i]], cities[tour[i+1]]);
+    return d + dist(cities[tour[tour.length-1]], cities[tour[0]]);
+}
+
+// ---------- Population ----------
+function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i+1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
+
+function createPopulation(popSize, nCities) {
+    let base = [...Array(nCities).keys()];
+    let pop = [];
+    for (let i = 0; i < popSize; i++) {
+        pop.push(shuffle([...base]));
+    }
+    return pop;
+}
+
+// ---------- Ordered Crossover (OX) ----------
+function crossover(A, B) {
+    let start = Math.floor(Math.random() * A.length);
+    let end = Math.floor(Math.random() * A.length);
+    if (start > end) [start, end] = [end, start];
+
+    let child = A.slice(start, end);
+    for (let g of B) {
+        if (!child.includes(g)) child.push(g);
+    }
+    return child;
+}
+
+// ---------- Mutation (swap) ----------
+function mutate(tour) {
+    let idx1 = Math.floor(Math.random() * tour.length);
+    let idx2 = Math.floor(Math.random() * tour.length);
+    [tour[idx1], tour[idx2]] = [tour[idx2], tour[idx1]];
+}
+
+// ---------- Tournament Selection ----------
+function select(pop, cities) {
+    let a = pop[Math.floor(Math.random()*pop.length)];
+    let b = pop[Math.floor(Math.random()*pop.length)];
+    return tourDistance(a, cities) < tourDistance(b, cities) ? a : b;
+}
+
+function scaleCities(cities, canvasSize = 500, padding = 40) {
+    let xs = cities.map(c => c.x);
+    let ys = cities.map(c => c.y);
+
+    let minX = Math.min(...xs);
+    let maxX = Math.max(...xs);
+    let minY = Math.min(...ys);
+    let maxY = Math.max(...ys);
+
+    let width = maxX - minX;
+    let height = maxY - minY;
+
+    // scale to fit canvas while preserving aspect ratio
+    let scale = (canvasSize - padding * 2) / Math.max(width, height);
+
+    // center after scaling
+    let offsetX = (canvasSize - width * scale) / 2;
+    let offsetY = (canvasSize - height * scale) / 2;
+
+    return cities.map(c => ({
+        sx: (c.x - minX) * scale + offsetX,
+        sy: (c.y - minY) * scale + offsetY
+    }));
+}
+
+// ---------- Draw Best Route ----------
+function draw(tour, cities) {
+    let cv = document.getElementById("canvas");
+    let ctx = cv.getContext("2d");
+    ctx.clearRect(0, 0, 500, 500);
+
+    // Auto-fit scaled coordinates
+    let scaled = scaleCities(cities);
+
+    // ---- Draw Lines ----
+    ctx.beginPath();
+    for (let i = 0; i < tour.length; i++) {
+        let c1 = scaled[tour[i]];
+        let c2 = scaled[tour[(i + 1) % tour.length]];
+
+        ctx.moveTo(c1.sx, c1.sy);
+        ctx.lineTo(c2.sx, c2.sy);
+    }
+    ctx.stroke();
+
+    // ---- Draw City Points ----
+    for (let c of scaled) {
+        ctx.beginPath();
+        ctx.arc(c.sx, c.sy, 5, 0, Math.PI * 2);
+        ctx.fill();
+    }
+}
+
+
+// ---------- GA Loop with Animation ----------
+let animInterval = null;
+
+function startGA() {
+    //if (animInterval) clearInterval(animInterval);
+
+    let cities = loadCities();
+    let popSize = parseInt(document.getElementById("popSize").value);
+    let mutRate = parseInt(document.getElementById("mutationRate").value)/100;
+
+    let pop = createPopulation(popSize, cities.length);
+
+    let bestTour = pop[0];
+    let bestCost = tourDistance(bestTour, cities);
+    let generation = 0;
+
+    animInterval = setInterval(() => {
+
+    let newPop = [];
+    let mutatedCount = 0;
+
+    // Generate new population
+    for (let i = 0; i < popSize; i++) {
+        let p1 = select(pop, cities);
+        let p2 = select(pop, cities);
+        let child = crossover(p1, p2);
+
+        // Mutation applied?
+        if (Math.random() < mutRate) {
+            mutate(child);
+            mutatedCount++;
+        }
+
+        newPop.push(child);
+    }
+    
+
+    pop = newPop;
+
+    // Track best
+    for (let t of pop) {
+        let cost = tourDistance(t, cities);
+        if (cost < bestCost) {
+            bestCost = cost;
+            bestTour = t;
+        }
+    }
+
+    generation++;
+
+    // ------- Compute Mutation Percentage -------
+    let mutatedPercent = (mutatedCount / popSize * 100).toFixed(2);
+
+    // Update screen
+    draw(bestTour, cities);
+
+    document.getElementById("stats").innerHTML =
+        `<b>Generation:</b> ${generation} &nbsp; 
+         <b>Best Cost:</b> ${bestCost.toFixed(2)} &nbsp;
+		 <b>Mutation Rate:</b> ${(mutRate*100).toFixed(2)}%`;
+    //    <b>Mutations:</b> ${mutatedCount} individuals (${mutatedPercent}%)`;
+
+    if (generation >= 1000) {
+        clearInterval(animInterval);
+    }
+
+}, 50);
+}
+
+</script>
+<script src="./js/main.js"></script>
+</body>
+</html>
