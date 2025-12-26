@@ -22,6 +22,7 @@ Genetic Algorithms are a form of Artificial Intelligence. They learn by evolving
 
 SrNo | Name | VLabs Developer or Integration Engineer | Designation | Department| Institute
 :--|:--|:--|:--|:--|:--|
-1 | **Saptarshi Mondal** | VLabs Developer | Junior Project Scientist | Department of Computer Science & Engineering | IIT Kharagpur | 
-2 | **Debashis Das Adhikary** | VLabs Developer | Senior Project Assistant | Department of Mechanical Engineering | IIT Kharagpur | 
-3 | **Indira Chowdhury** | VLabs Developer | Senior Project Assistant | Department of Mechanical Engineering | IIT Kharagpur |
+1 | **Prakriti Dhang** | VLabs Developer and Integration Engineer | Project Scientist | Department of Computer Science & Engineering | IIT Kharagpur | 
+2 | **Saptarshi Mondal** | VLabs Developer | Junior Project Scientist | Department of Computer Science & Engineering | IIT Kharagpur | 
+3 | **Debashis Das Adhikary** | VLabs Developer | Senior Project Assistant | Department of Mechanical Engineering | IIT Kharagpur | 
+4 | **Indira Chowdhury** | VLabs Developer | Senior Project Assistant | Department of Mechanical Engineering | IIT Kharagpur |
