@@ -9,7 +9,7 @@
     },
     {
       "target": "introduction.html",
-      "source": "introduction .md",
+      "source": "introduction.md",
       "label": "Introduction",
       "unit-type": "task",
       "content-type": "text"
@@ -38,7 +38,7 @@
     },
     {
       "target": "simulation.html",
-      "source": "simulation/indexo.html",
+      "source": "simulation/index.html",
       "label": "Simulation",
       "unit-type": "task",
       "content-type": "simulation"
