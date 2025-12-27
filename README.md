@@ -4,7 +4,7 @@
 <b>Discipline | <b> Computer Science & Engineering, Civil Engineering
 :--|:--|
 <b> Lab | <b> Soft Computing Tools in Engineering
-<b> Experiment|     <b> Binary and Real Coded genetic Algorithms and Application and Exp No.-10
+<b> Experiment|     <b> Binary and Real Coded genetic Algorithms and Application and Exp No.- 9
 
 ### About the Experiment 
 
