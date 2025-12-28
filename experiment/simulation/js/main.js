@@ -352,29 +352,12 @@ canvas.addEventListener('click', e => {
 
 });
 
-// document.getElementById('runBtn').addEventListener('click', () => {
-//     const popSize = parseInt(document.getElementById('populationsize').value);
-//     const mutRate = parseFloat(document.getElementById('mutateperc').value);
-//     const generations = parseInt(document.getElementById('genCount').value);
-//     const updateEvery = parseInt(document.getElementById('updateEvery').value);
-//     log_city_number(`Total number of Cities: ${cities.length}`);
-
-//         runGA(popSize, mutRate, generations, updateEvery);
-
-
-// });
 
 function runGAbtn() {
     const popSize = parseInt(document.getElementById('populationsize').value);
     const mutRate = parseFloat(document.getElementById('mutateperc').value);
     const generations = parseInt(document.getElementById('genCount').value);
     const updateEvery = parseInt(document.getElementById('updateEvery').value);
-
-    // if (isNaN(popSize) || isNaN(mutRate) || isNaN(generations)) {
-    //     showAlert("Fields cannot be blank");
-
-
-    // }
 
 
     if (isNaN(popSize)) {
@@ -401,10 +384,6 @@ function runGAbtn() {
 
 
 
-//document.getElementById('stopBtn').addEventListener('click', () => { stopRequested = true; });
-// document.getElementById('clearBtn').addEventListener('click', () => {
-//     cities = []; drawCities(); log("Cleared cities.");
-// });
 
 
 function log(msg) {
