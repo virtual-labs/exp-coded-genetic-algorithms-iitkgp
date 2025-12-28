@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Add CSS at the head of HTML file -->
+    <link rel="stylesheet" href="./css/main.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!--link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css"-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!--link rel="styleshee" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"-->
+
+</head>
+
+<title>Travelling Salesman Problem using Genetic Algorithm</title>
+
+</head>
+
+<body>
+
+
+    <div class="container-fluid mt-2 p-3">
+
+        <div class="d-flex flex-column justify-content-center ">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- <div class="card border-0">
+                        <div class="card-body border-0"> -->
+                    <h3 class="text-center">Travelling Salesman Problem using Genetic Algorithm</h3>
+                    <!-- </div>
+                    </div> -->
+
+                </div>
+            </div>
+            <br>
+            <div class="row ">
+                <!-- <div class="col-md-2"></div> -->
+                <div class="col-md-9">
+                    <div class="card border-primary">
+                        <h5 class="card-header border-primary">Input Space</h5>
+                        <div class="card-body border-primary">
+                            <canvas id="tspCanvas" width="940px" height="300px"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="card border-primary">
+                        <h5 class="card-header border-primary">Cities (Selected coodinates)</h5>
+                        <div class="card-body border-primary">
+
+                            <pre id="log_city_number"></pre>
+                            <pre id="log"></pre>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row ">
+                <div class="col-md-4">
+                    <div class="card border-primary">
+                        <h5 class="card-header border-primary">Parameters</h5>
+                        <div class="card-body border-primary">
+                            <div class="form-group mb-2">
+                                <label for="">Population Size</label>
+                                <input type="number" class="form-control" id="populationsize"
+                                    placeholder="Enter Population Size">
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="">Mutate %</label>
+                                <input type="number" class="form-control" id="mutateperc" placeholder="Enter Mutation">
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="">Generations</label>
+                                <input type="number" class="form-control" id="genCount"
+                                    placeholder="Enter number of generations to be run">
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="" hidden>Update Every</label>
+                                <input type="number" class="form-control" id="updateEvery" value="" readonly hidden>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="card  border-primary">
+                        <h5 class="card-header border-primary">Controls</h5>
+                        <div class="card-body border-primary">
+                            <div class="d-flex gap-2 flex-column ">
+
+                                <!-- <div class="form-check form-switch">
+                                    <input class="form-check-input border border-primary border-2" type="checkbox" id="gridToggle"
+                                        onchange="toggleGrid()">
+                                    <label class="form-check-label" for="gridToggle"><b>Show Grid</b></label>
+                                </div> -->
+
+                                <button type="button" class="btn  border border-primary border-2" id="runBtn"
+                                    onclick="runGAbtn()" style="color:#0D62E0" ;><b>Start</b></button>
+                                <!-- <button type="button" class="btn btn-light border border-dark border-2"
+                                    id="stopBtn"><b>Stop</b></button> -->
+
+                                <button type="button" class="btn  border border-primary border-2" id="clearBtn"
+                                    onClick="clearexp();" style="color:#0D62E0" ;><b>Clear</b></button>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card border-primary">
+                        <h5 class="card-header border-primary">Results</h5>
+                        <div class="card-body border-primary">
+                            <div class="form-group mb-2">
+                                <label for="">Generations</label>
+                                <input type="number" class="form-control " id="genCountresult" placeholder="" readonly>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="">Cost</label>
+                                <input type="number" class="form-control " id="bestCost" placeholder="" readonly>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="">Mutated %</label>
+                                <!-- <p>Mutated: <span id="mutatedPerc">0%</span></p> -->
+                                <input type="number" class="form-control " id="mutatedPerc" placeholder="" readonly>
+                            </div>
+                            <div class="form-group mb-2">
+                                <label for="">Best Route</label>
+                                <!-- <p>Mutated: <span id="mutatedPerc">0%</span></p> -->
+                                <input type="text" class="form-control" id="bestRoute" placeholder="" readonly>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- <div class="row">
+                <div class="col-md-6">
+                    <div class="card">
+                        <h5 class="card-header">Logs</h5>
+                        <div class="card-body">
+                            <pre id="log1"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+
+        </div>
+    </div>
+    <!-- <div class="controls">
+  Population: <input id="popInput" type="number" value="500">
+  Mutation Rate: <input id="mutInput" type="number" step="0.01" value="0.1">
+  Generations: <input id="genInput" type="number" value="500">
+  Update Every: <input id="updateEvery" type="number" value="5">
+  <button id="runBtn">Run GA</button>
+  <button id="stopBtn" disabled>Stop</button>
+  <button id="clearBtn">Clear Cities</button>
+</div> -->
+
+    <!-- <p>Best Cost: <span id="bestCost">—</span> | Generation: <span id="genCount">—</span> | Mutated: <span id="mutatedPerc">0%</span></p> -->
+
+    <!-- Alert Modal -->
+    <div class="modal fade" id="alertModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="alertModalTitle">Alert</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body" id="alertModalBody">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
+                        OK
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script src="../assets/js/iframeResize.js"></script>
+        
+        </body>
+
+
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/11.9.1/math.js"></script>
+
+<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+<!--script type="text/javascript" src="http://canvasjs.com/assets/script/canvasjs.min.js"></script-->
+<script src="./js/main.js"></script>
+
+</html>

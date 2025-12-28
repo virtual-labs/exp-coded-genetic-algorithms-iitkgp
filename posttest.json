@@ -1,0 +1,29 @@
+{
+  "version": 2.0,
+  "questions": [
+    {
+      "question": "Which of the following algorithms is specifically designed for solving optimization problems on continuous search spaces?",
+      "answers": {
+        "a": "Genetic Algorithm (GA)",
+        "b": "Particle Swarm Optimization (PSO)",
+        "c": "Simulated Annealing (SA)",
+        "d": "Tabu Search"
+      },
+      
+      "correctAnswer": "b",
+      "difficulty": "beginner"
+    },
+    {
+      "question": "Binary-coded algorithms are commonly used in optimization problems where the decision variables are typically represented as:",
+      "answers": {
+        "a": "Continuous values",
+        "b": " Integer values",
+        "c": "Boolean values",
+        "d": "Categorical values"
+      },
+      
+      "correctAnswer": "c",
+      "difficulty": "beginner"
+    }
+  ]
+}
