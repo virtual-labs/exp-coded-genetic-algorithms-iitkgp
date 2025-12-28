@@ -1,4 +1,4 @@
-### Procedure
+## Procedure
 1. Enter Parameters for Population Size, Mutation Percentage and Generations.
 <img src="./images/procedure_1.png" alt="Image" style="display:block; margin: 0 auto max-width:100%; height:auto; ">
 
